@@ -385,9 +385,23 @@
         titleImageView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [pageView addSubview:titleImageView];
-        [pageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace@250-[titleImageView(imageHeight)]" options:NSLayoutFormatAlignAllTop metrics:@{@"imageHeight" : @(page.titleIconView.frame.size.height), @"topSpace" : @(page.titleIconPositionY)} views:@{@"titleImageView" : titleImageView}]];
-        [pageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[titleImageView(imageWidth)]" options:0 metrics:@{@"imageWidth" : @(page.titleIconView.frame.size.width)} views:@{@"titleImageView" : titleImageView}]];
-        [pageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[superview]-(<=1)-[titleImageView]" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"superview" : pageView, @"titleImageView" : titleImageView}]];
+        //        [pageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace@250-[titleImageView(imageHeight)]" options:NSLayoutFormatAlignAllTop metrics:@{@"imageHeight" : @(page.titleIconView.frame.size.height), @"topSpace" : @(page.titleIconPositionY)} views:@{@"titleImageView" : titleImageView}]];
+        
+        float h = pageView.frame.size.height - page.titleIconPositionY - page.titlePositionY - 5;
+        [pageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topSpace@250-[titleImageView(<=imageHeight)]" options:NSLayoutFormatAlignAllTop metrics:@{@"imageHeight" : @(h), @"topSpace" : @(page.titleIconPositionY)} views:@{@"titleImageView" : titleImageView}]];
+        //        [pageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[titleImageView(imageWidth)]" options:0 metrics:@{@"imageWidth" : @(page.titleIconView.frame.size.width)} views:@{@"titleImageView" : titleImageView}]];
+        [pageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-20-[titleImageView]-20-|" options:0 metrics:nil views:@{@"titleImageView" : titleImageView}]];
+        
+        [page.titleIconView addConstraint:[NSLayoutConstraint
+                                           constraintWithItem:page.titleIconView
+                                           attribute:NSLayoutAttributeHeight
+                                           relatedBy:NSLayoutRelationEqual
+                                           toItem:page.titleIconView
+                                           attribute:NSLayoutAttributeWidth
+                                           multiplier:(page.titleIconView.frame.size.height / page.titleIconView.frame.size.width)
+                                           constant:0]];
+        
+        //[pageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[superview]-(<=1)-[titleImageView]" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"superview" : pageView, @"titleImageView" : titleImageView}]];
     }
     
     UILabel *titleLabel;
